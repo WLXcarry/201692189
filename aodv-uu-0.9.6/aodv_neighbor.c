@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Authors: Erik Nordström, <erik.nordstrom@it.uu.se>
+ * Authors: Erik NordstrÃ¶m, <erik.nordstrom@it.uu.se>
  *
  *****************************************************************************/
 
@@ -45,6 +45,7 @@ void NS_CLASS neighbor_add(AODV_msg * aodv_msg, struct in_addr source,
     u_int32_t seqno = 0;
 
     gettimeofday(&now, NULL);
+	/*     */
 
     rt = rt_table_find(source);
 
