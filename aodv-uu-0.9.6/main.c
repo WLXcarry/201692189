@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Author: Erik Nordstr�m, <erik.nordstrom@it.uu.se>
+ * Author: Erik Nordström, <erik.nordstrom@it.uu.se>
  *
  *****************************************************************************/
 #include <stdio.h>
@@ -122,7 +122,7 @@ void usage(int status)
 	 "-R, --rate-limit        Toggle rate limiting of RREQs and RERRs (default ON).\n"
 	 "-q, --quality-threshold Set a minimum signal quality threshold for control packets.\n"
 	 "-V, --version           Show version.\n\n"
-	 "Erik Nordstr�m, <erik.nordstrom@it.uu.se>\n\n",
+	 "Erik Nordström, <erik.nordstrom@it.uu.se>\n\n",
 	 progname, AODV_LOG_PATH, AODV_RT_LOG_PATH);
 
     exit(status);
@@ -481,6 +481,7 @@ void signal_handler(int type)
 int main(int argc, char **argv)
 {
     static char *ifname = NULL;	/* Name of interface to attach to */
+	/*初始化各种变量*/
     fd_set rfds, readers;
     int n, nfds = 0, i;
     int daemonize = 0;
@@ -521,6 +522,7 @@ int main(int argc, char **argv)
     sigprocmask(SIG_BLOCK, &mask, &origmask);
 
     /* Parse command line: */
+	/*获取用户输入的字符转化成命令*/
     while (1) {
 	int opt;
 
@@ -592,7 +594,7 @@ int main(int argc, char **argv)
 	    break;
 	case 'V':
 	    printf
-		("\nAODV-UU v%s, %s � Uppsala University & Ericsson AB.\nAuthor: Erik Nordstr�m, <erik.nordstrom@it.uu.se>\n\n",
+		("\nAODV-UU v%s, %s © Uppsala University & Ericsson AB.\nAuthor: Erik Nordström, <erik.nordstrom@it.uu.se>\n\n",
 		 AODV_UU_VERSION, DRAFT_VERSION);
 	    exit(0);
 	    break;
