@@ -103,7 +103,7 @@ void usage(int status)
 
     printf
 	("\nUsage: %s [-dghjlouwxLDRV] [-i if0,if1,..] [-r N] [-n N] [-q THR]\n\n"
-	 "-d, --daemon            Daemon mode, i.e. detach from the console.\n"
+	 "-d, --daemon            Daemon mode, i.e. detach from the console.\n" 
 	 "-g, --force-gratuitous  Force the gratuitous flag to be set on all RREQ's.\n"
 	 "-h, --help              This information.\n"
 	 "-i, --interface         Network interfaces to attach to. Defaults to first\n"
@@ -481,7 +481,7 @@ void signal_handler(int type)
 int main(int argc, char **argv)
 {
     static char *ifname = NULL;	/* Name of interface to attach to */
-	/*初始化各种变量,接口名，描述符集，时间和信号等结构体*/
+	/*初始化各种变量*/
     fd_set rfds, readers;
     int n, nfds = 0, i;
     int daemonize = 0;
@@ -490,7 +490,7 @@ int main(int argc, char **argv)
     struct sigaction sigact;
     sigset_t mask, origmask;
 
-    /* 获取程序名，初始化一些信号 */
+    /* Remember the name of the executable... */
     progname = strrchr(argv[0], '/');
 
     if (progname)
@@ -534,27 +534,27 @@ int main(int argc, char **argv)
 	switch (opt) {
 	case 0:
 	    break;
-	case 'd':
+	case 'd':  //开启守护进程模式，脱离控制台窗口//
 	    debug = 0;
 	    daemonize = 1;
 	    break;
-	case 'f':
+	case 'f'://开启链路层反馈 //
 	    llfeedback = 1;
 	    active_route_timeout = ACTIVE_ROUTE_TIMEOUT_LLF;
 	    break;
-	case 'g':
+	case 'g'://每个RREQ消息上强制设置gratuitous标记//
 	    rreq_gratuitous = !rreq_gratuitous;
 	    break;
-	case 'i':
-	    ifname = optarg;
+	case 'i'://表示要绑定的接口
+	    ifname = optarg;//
 	    break;
-	case 'j':
+	case 'j'://触发hello-jitter功能，默认情况下开启//
 	    hello_jittering = !hello_jittering;
 	    break;
-	case 'l':
+	case 'l'://输出日志//
 	    log_to_file = !log_to_file;
 	    break;
-	case 'n':
+	case 'n'://设置接到n个HELLO消息才当成邻居// 
 	    if (optarg && isdigit(*optarg)) {
 		receive_n_hellos = atoi(optarg);
 		if (receive_n_hellos < 2) {
@@ -563,36 +563,36 @@ int main(int argc, char **argv)
 		}
 	    }
 	    break;
-	case 'o':
+	case 'o'://设置只在转发数据包时发送HELLO消息 //
 	    optimized_hellos = !optimized_hellos;
 	    break;
-	case 'q':
+	case 'q'://为控制包设置一个信号质量最小阈值 //
 	    if (optarg && isdigit(*optarg))
 		qual_threshold = atoi(optarg);
 	    break;
-	case 'r':
+	case 'r'://每隔一段时间记录路由表//
 	    if (optarg && isdigit(*optarg))
 		rt_log_interval = atof(optarg) * 1000;
 	    break;
-	case 'u':
+	case 'u'://侦测并避免单向链路//
 	    unidir_hack = !unidir_hack;
 	    break;
-	case 'w':
+	case 'w'://开启试验性因特网网关支持//
 	    internet_gw_mode = !internet_gw_mode;
 	    break;
-	case 'x':
+	case 'x'://禁用RREQ消息的扩展环搜索法//
 	    expanding_ring_search = !expanding_ring_search;
 	    break;
-	case 'L':
+	case 'L'://开启本地修复//
 	    local_repair = !local_repair;
 	    break;
-	case 'D':
+	case 'D'://禁用重启延迟的等待//
 	    wait_on_reboot = !wait_on_reboot;
 	    break;
-	case 'R':
+	case 'R'://开启RREQ和RERR消息的速率限制//
 	    ratelimit = !ratelimit;
 	    break;
-	case 'V':
+	case 'V'://输出版本信息//
 	    printf
 		("\nAODV-UU v%s, %s © Uppsala University & Ericsson AB.\nAuthor: Erik Nordström, <erik.nordstrom@it.uu.se>\n\n",
 		 AODV_UU_VERSION, DRAFT_VERSION);
@@ -605,7 +605,7 @@ int main(int argc, char **argv)
 	    usage(0);
 	}
     }
-    /* 检查程序是否在root下运行 */
+    /* Check that we are running as root */
     if (geteuid() != 0) {
 	fprintf(stderr, "must be root\n");
 	exit(1);
@@ -622,7 +622,7 @@ int main(int argc, char **argv)
 	setsid();
     }
     /* Make sure we cleanup at exit... */
-    atexit((void *) &cleanup);  /*调用各初始化函数进行重要数据结构和服务的初始化工作*/
+    atexit((void *) &cleanup);
 
     /* Initialize data structures and services... */
     rt_table_init();
@@ -645,7 +645,7 @@ int main(int argc, char **argv)
 	FD_SET(callbacks[i].fd, &readers);
 	if (callbacks[i].fd >= nfds)
 	    nfds = callbacks[i].fd + 1;
-    }/*设置重启定时器，若超出一定时间则进行重启*/
+    }
 
     /* Set the wait on reboot timer... */
     if (wait_on_reboot) {
