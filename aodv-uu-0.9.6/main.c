@@ -481,7 +481,7 @@ void signal_handler(int type)
 int main(int argc, char **argv)
 {
     static char *ifname = NULL;	/* Name of interface to attach to */
-	/*初始化各种变量*/
+	/*初始化各种变量,接口名，描述符集，时间和信号等结构体*/
     fd_set rfds, readers;
     int n, nfds = 0, i;
     int daemonize = 0;
@@ -490,7 +490,7 @@ int main(int argc, char **argv)
     struct sigaction sigact;
     sigset_t mask, origmask;
 
-    /* Remember the name of the executable... */
+    /* 获取程序名，初始化一些信号 */
     progname = strrchr(argv[0], '/');
 
     if (progname)
@@ -605,7 +605,7 @@ int main(int argc, char **argv)
 	    usage(0);
 	}
     }
-    /* Check that we are running as root */
+    /* 检查程序是否在root下运行 */
     if (geteuid() != 0) {
 	fprintf(stderr, "must be root\n");
 	exit(1);
@@ -622,7 +622,7 @@ int main(int argc, char **argv)
 	setsid();
     }
     /* Make sure we cleanup at exit... */
-    atexit((void *) &cleanup);
+    atexit((void *) &cleanup);  /*调用各初始化函数进行重要数据结构和服务的初始化工作*/
 
     /* Initialize data structures and services... */
     rt_table_init();
@@ -645,7 +645,7 @@ int main(int argc, char **argv)
 	FD_SET(callbacks[i].fd, &readers);
 	if (callbacks[i].fd >= nfds)
 	    nfds = callbacks[i].fd + 1;
-    }
+    }/*设置重启定时器，若超出一定时间则进行重启*/
 
     /* Set the wait on reboot timer... */
     if (wait_on_reboot) {
