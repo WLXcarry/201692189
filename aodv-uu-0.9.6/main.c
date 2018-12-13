@@ -490,7 +490,7 @@ int main(int argc, char **argv)
     struct sigaction sigact;
     sigset_t mask, origmask;
 
-    /* Remember the name of the executable... */
+    /* Remember the name of the executable... */   //获取变量名，初始化一些信号
     progname = strrchr(argv[0], '/');
 
     if (progname)
