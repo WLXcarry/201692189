@@ -481,7 +481,6 @@ void signal_handler(int type)
 int main(int argc, char **argv)
 {
     static char *ifname = NULL;	/* Name of interface to attach to */
-	/*初始化各种变量*/
     fd_set rfds, readers;
     int n, nfds = 0, i;
     int daemonize = 0;
